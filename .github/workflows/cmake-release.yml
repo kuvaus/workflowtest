@@ -61,21 +61,21 @@ jobs:
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
             mv chat.exe chat-windows-latest-avx.exe
-            shasum -a 256 -b chat-windows-latest-avx.exe > shasum-chat-windows-latest-avx.sha256
+            shasum -a 256 -b chat-windows-latest-avx.exe >> shasums-for-chat.sha256
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
-            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} > shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
+            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} >> shasums-for-chat.sha256
           }
         } else {
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
             mv chat.exe chat-windows-latest-avx2.exe
-            shasum -a 256 -b chat-windows-latest-avx2.exe > shasum-chat-windows-latest-avx2.sha256
+            shasum -a 256 -b chat-windows-latest-avx2.exe >> shasums-for-chat.sha256
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
-            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} > shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
+            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} >> shasums-for-chat.sha256
           }
         }
       shell: pwsh
@@ -89,8 +89,8 @@ jobs:
     - name: Upload shasums
       uses: actions/upload-artifact@v2
       with:
-        name: shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}
-        path: shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}*
+        name: shasums-for-chat
+        path: shasums-for-chat*
   release:
     needs: build
     runs-on: ubuntu-latest
