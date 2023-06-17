@@ -104,7 +104,6 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        body_path: CHANGELOG.txt
         draft: false
         prerelease: false
 
@@ -125,4 +124,17 @@ jobs:
         files: |
           artifacts/**/*
 
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Generate release notes
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+        body_path: CHANGELOG.txt
+        draft: false
+        prerelease: false
 
