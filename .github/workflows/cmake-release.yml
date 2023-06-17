@@ -60,21 +60,21 @@ jobs:
         if ("${{ matrix.instructions }}" -eq "avx"){
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
-            sha256sum -b chat.exe > chat-windows-latest-avx.sha256
+            sha256sum -b chat.exe > shasum-chat-windows-latest-avx.sha256
             mv chat.exe chat-windows-latest-avx.exe
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
-            shasum -a 256 -b chat > chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
+            shasum -a 256 -b chat > shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
           }
         } else {
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
-            sha256sum -b chat.exe > chat-windows-latest-avx2.sha256
+            sha256sum -b chat.exe > shasum-chat-windows-latest-avx2.sha256
             mv chat.exe chat-windows-latest-avx2.exe
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
-            shasum -a 256 -b chat > chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
+            shasum -a 256 -b chat > shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
             
           }
@@ -86,7 +86,8 @@ jobs:
       with:
         name: chat-${{ matrix.os }}-${{ matrix.instructions }}
         path: chat-${{ matrix.os }}-${{ matrix.instructions }}*
-
+        name: shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}
+        path: chat-${{ matrix.os }}-${{ matrix.instructions }}*
   release:
     needs: build
     runs-on: ubuntu-latest
