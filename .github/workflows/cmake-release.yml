@@ -61,21 +61,21 @@ jobs:
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
             mv chat.exe chat-windows-latest-avx.exe
-            shasum -a 256 -b chat-windows-latest-avx.exe >> shasums-for-chat.sha256
+            shasum -a 256 -b chat-windows-latest-avx.exe > shasum-chat-windows-latest-avx.sha256
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
-            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} >> shasums-for-chat.sha256
+            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} > shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
           }
         } else {
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
             mv chat.exe chat-windows-latest-avx2.exe
-            shasum -a 256 -b chat-windows-latest-avx2.exe >> shasums-for-chat.sha256
+            shasum -a 256 -b chat-windows-latest-avx2.exe > shasum-chat-windows-latest-avx2.sha256
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
-            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} >> shasums-for-chat.sha256
+            shasum -a 256 -b chat-${{ matrix.os }}-${{ matrix.instructions }} > shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
           }
         }
       shell: pwsh
@@ -89,8 +89,8 @@ jobs:
     - name: Upload shasums
       uses: actions/upload-artifact@v2
       with:
-        name: shasums-for-chat
-        path: shasums-for-chat*
+        name: shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}
+        path: shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}*
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -104,6 +104,10 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
+        body: |
+        Changes in this Release
+          - First Change
+          - Second Change
         draft: false
         prerelease: false
 
@@ -119,6 +123,7 @@ jobs:
       with:
         tag_name: ${{ github.ref_name }}
         name: Release ${{ github.ref_name }}
+        body_path: ${{ github.workspace }}-CHANGELOG.txt
         draft: false
         prerelease: false
         files: |
