@@ -64,7 +64,7 @@ jobs:
             mv chat.exe chat-windows-latest-avx.exe
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
-            sha256sum -b chat > chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
+            shasum -a 256 -b chat > chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
           }
         } else {
@@ -74,7 +74,7 @@ jobs:
             mv chat.exe chat-windows-latest-avx2.exe
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
-            sha256sum -b chat > chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
+            shasum -a 256 -b chat > chat-${{ matrix.os }}-${{ matrix.instructions }}.sha256
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
             
           }
