@@ -61,7 +61,7 @@ jobs:
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
             mv chat.exe chat-windows-latest-avx.exe
-            sha256sum -b chat-windows-latest-avx.exe > shasum-chat-windows-latest-avx.sha256
+            shasum -a 256 -b chat-windows-latest-avx.exe > shasum-chat-windows-latest-avx.sha256
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
@@ -71,7 +71,7 @@ jobs:
           if ("${{ matrix.os }}" -eq "windows-latest") {
             cp ${{github.workspace}}\build\bin\chat.exe chat.exe
             mv chat.exe chat-windows-latest-avx2.exe
-            sha256sum -b chat-windows-latest-avx2.exe > shasum-chat-windows-latest-avx2.sha256
+            shasum -a 256 -b chat-windows-latest-avx2.exe > shasum-chat-windows-latest-avx2.sha256
           } else {
             cp ${{github.workspace}}/build/bin/chat chat
             mv chat chat-${{ matrix.os }}-${{ matrix.instructions }}
