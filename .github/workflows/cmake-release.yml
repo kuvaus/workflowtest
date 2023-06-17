@@ -90,7 +90,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}
-        path: chat-${{ matrix.os }}-${{ matrix.instructions }}*
+        path: shasum-chat-${{ matrix.os }}-${{ matrix.instructions }}*
   release:
     needs: build
     runs-on: ubuntu-latest
