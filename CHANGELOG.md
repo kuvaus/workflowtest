@@ -4,6 +4,7 @@
 #### [Upcoming](https://github.com/kuvaus/workflowtest/compare/v0.2.9...HEAD)
 
 #### [v0.2.9](https://github.com/kuvaus/LlamaGPTJ-chat/releases/tag/v0.2.9)
+> 20 June 2023
 
 - Add this [changelog](https://github.com/kuvaus/LlamaGPTJ-chat/CHANGELOG.md) :)
 - Add sha256 hashes on release so you can verify the binaries

@@ -140,6 +140,25 @@ jobs:
       uses: jannekem/run-python-script-action@v1
       with:
         script: |
+          filtered_lines = []
+          start_processing = False
+
+          with open('CHANGELOG.md', 'r') as file:
+            for line in file:
+              if line.startswith("#### [v"):
+                if start_processing:
+                  break
+                else:
+                  file.readline()
+                  file.readline()
+                  start_processing = True
+                  continue
+              if start_processing:
+                filtered_lines.append(line)
+      
+            with open('FILTERED_CHANGELOG.md', 'w') as file:
+              file.writelines(filtered_lines)
+
           with open('CHANGELOG.md', 'r') as file:
             lines = file.readlines()
 
