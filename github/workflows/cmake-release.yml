@@ -137,7 +137,7 @@ jobs:
         python-version: 3.x
 
     - name: Filter CHANGELOG.md
-        run: |
+      run: |
         with open('CHANGELOG.md', 'r') as file:
           lines = file.readlines()
 
