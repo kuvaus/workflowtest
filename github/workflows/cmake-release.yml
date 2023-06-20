@@ -126,7 +126,7 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v3
-      
+
     #
     # This part filters the CHANGELOG.md using python
     # Then it adds FILTERED_CHANGELOG.md to release notes
@@ -137,15 +137,26 @@ jobs:
         python-version: 3.x
 
     - name: Filter CHANGELOG.md
-
     - uses: jannekem/run-python-script-action@v1
       with:
         script: |
-          import os
-          print("Directory contents:")
-          for f in os.listdir():
-              print(f)
-      
+          with open('CHANGELOG.md', 'r') as file:
+            lines = file.readlines()
+
+          filtered_lines = []
+          start_processing = False
+          for line in lines:
+            if line.startswith("#### [v"):
+              if start_processing:
+                break
+              else:
+                start_processing = True
+            if start_processing:
+              filtered_lines.append(line)
+
+          with open('FILTERED_CHANGELOG.md', 'w') as file:
+            file.writelines(filtered_lines)
+
     - name: Generate release notes
       uses: softprops/action-gh-release@v1
       env:
