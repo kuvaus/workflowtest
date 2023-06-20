@@ -159,6 +159,23 @@ jobs:
             with open('FILTERED_CHANGELOG.md', 'w') as file:
               file.writelines(filtered_lines)
 
+          with open('CHANGELOG.md', 'r') as file:
+            lines = file.readlines()
+
+          filtered_lines = []
+          start_processing = False
+          for line in lines:
+            if line.startswith("#### [v"):
+              if start_processing:
+                break
+              else:
+                start_processing = True
+            if start_processing:
+              filtered_lines.append(line)
+
+          with open('FILTERED_CHANGELOG.md', 'w') as file:
+            file.writelines(filtered_lines)
+
     - name: Generate release notes
       uses: softprops/action-gh-release@v1
       env:
@@ -169,4 +186,5 @@ jobs:
         body_path: FILTERED_CHANGELOG.md
         draft: false
         prerelease: false
+
 
