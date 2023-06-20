@@ -137,23 +137,25 @@ jobs:
         python-version: 3.x
 
     - name: Filter CHANGELOG.md
-      run: |
-        with open('CHANGELOG.md', 'r') as file:
-          lines = file.readlines()
+    - uses: jannekem/run-python-script-action@v1
+      with:
+        script: |
+          with open('CHANGELOG.md', 'r') as file:
+            lines = file.readlines()
 
-	    filtered_lines = []
-	    start_processing = False
-	    for line in lines:
-          if line.startswith("#### [v"):
+	      filtered_lines = []
+	      start_processing = False
+	      for line in lines:
+            if line.startswith("#### [v"):
+              if start_processing:
+                break
+              else:
+                start_processing = True
             if start_processing:
-              break
-            else:
-              start_processing = True
-          if start_processing:
-            filtered_lines.append(line)
+              filtered_lines.append(line)
 
-	    with open('FILTERED_CHANGELOG.md', 'w') as file:
-          file.writelines(filtered_lines)
+	      with open('FILTERED_CHANGELOG.md', 'w') as file:
+            file.writelines(filtered_lines)
       shell: python
       
     - name: Generate release notes
