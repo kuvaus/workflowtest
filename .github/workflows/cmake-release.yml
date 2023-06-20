@@ -137,7 +137,7 @@ jobs:
         python-version: 3.x
 
     - name: Filter CHANGELOG.md
-    - uses: jannekem/run-python-script-action@v1
+      uses: jannekem/run-python-script-action@v1
       with:
         script: |
           with open('CHANGELOG.md', 'r') as file:
