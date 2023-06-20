@@ -156,7 +156,6 @@ jobs:
 
 	      with open('FILTERED_CHANGELOG.md', 'w') as file:
             file.writelines(filtered_lines)
-      shell: python
       
     - name: Generate release notes
       uses: softprops/action-gh-release@v1
