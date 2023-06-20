@@ -124,13 +124,14 @@ jobs:
         files: |
           artifacts/**/*
 
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
     #
     # This part filters the CHANGELOG.md using python
     # Then it adds FILTERED_CHANGELOG.md to release notes
     #
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
