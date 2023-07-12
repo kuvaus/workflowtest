@@ -1,0 +1,102 @@
+# This workflow will upload a Python Package using Twine when a release is created
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Publish Python Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
+  
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
+
+    - name: Build package
+      run: python -m build
+
+#    - name: Publish package
+#      uses: pypa/gh-action-pypi-publish@release/v1
+#      with:
+#        password: ${{ secrets.PYPI_API_TOKEN }}
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: package-artifact
+        path: ./dist
+
+    - name: Upload wheel
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.whl
+
+    - name: Upload tar.gz
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.tar.gz
+
+
+  release:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Download compressed artifacts
+      id: download
+      uses: actions/download-artifact@v3
+      with:
+        path: ./artifacts
+
+    - name: Create release and upload wheels
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifacts: "${{ steps.download.outputs.download-path }}/**/*.whl,${{ steps.download.outputs.download-path }}/**/*.gz,${{ steps.download.outputs.download-path }}/**/*.zip"
+        token: ${{ secrets.DEPLOY_KEY }}
+
+#    - name: Upload release assets
+#      uses: softprops/action-gh-release@v1
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
+#      with:
+#        tag_name: ${{ github.ref_name }}
+#        name: Release ${{ github.ref_name }}
+#        draft: false
+#        prerelease: false
+#        files: ./dist/*
+
+
