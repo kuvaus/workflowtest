@@ -3,7 +3,7 @@ name: CMake-release
 on:
   push:
     tags:
-      - 'v*'
+      - 'u*'
 
 env:
   BUILD_TYPE: Release
