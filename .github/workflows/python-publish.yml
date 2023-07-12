@@ -11,7 +11,7 @@ name: Publish Python Package
 on:
   push:
     tags:
-      - 'v*'
+      - 'p*'
 
 permissions:
   contents: read
