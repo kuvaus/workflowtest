@@ -3,8 +3,7 @@ on: [push]
 
 permissions:
   contents: read
-  contents: write
-    #contents: read-write
+  actions: write
 
 jobs:
   hello_releasenotes_job:
