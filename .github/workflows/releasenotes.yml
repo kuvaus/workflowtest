@@ -1,5 +1,10 @@
 on: [push]
 
+
+permissions:
+  contents: write
+  #contents: read-write
+
 jobs:
   hello_releasenotes_job:
     runs-on: ubuntu-latest
