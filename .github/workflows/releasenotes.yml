@@ -1,6 +1,5 @@
 on: [push]
 
-
 permissions:
   contents: read
   actions: write
@@ -10,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Hello world action step
         id: hello
         uses: kuvaus/changelog-releasenotes-action@v1
@@ -18,4 +19,5 @@ jobs:
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
+
 
