@@ -5,21 +5,14 @@ permissions:
   actions: write
 
 jobs:
-  hello_releasenotes_job:
+  releasenotes:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Generate release notes
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Hello world action step
-        id: hello
-        uses: kuvaus/changelog-releasenotes-action@v1
+      - name: Generate release notes
+        uses: kuvaus/changelog-releasenotes-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
-        with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
-
 
