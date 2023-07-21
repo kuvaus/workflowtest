@@ -14,10 +14,7 @@ jobs:
       - name: Generate release notes
         uses: kuvaus/changelog-releasenotes-action@v2
         with:
-          changelog: 'CHANGELOGS.md'
-          create_release: false
-          update_release: 'false'
-
+          changelog_format: 'other'
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
 
