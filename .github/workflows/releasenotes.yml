@@ -1,8 +1,8 @@
 on: [push]
 
-permissions:
-  contents: read
-  actions: write
+  #permissions:
+  #  contents: read
+  #  actions: write
 
 jobs:
   releasenotes:
@@ -14,7 +14,7 @@ jobs:
       - name: Generate release notes
         uses: kuvaus/changelog-releasenotes-action@v2
         with:
-          changelog_format: 'other'
+          changelog_format: 'auto-changelog'
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
 
